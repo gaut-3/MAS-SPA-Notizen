@@ -1,9 +1,14 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import { Note } from "../models/Note";
 
+interface Props {
+    noteList: Note[];
+    addNewNote: (arg: string) => void
+}
 
-export const AddNoteComponent = () => {
+export const AddNoteComponent = ({noteList, addNewNote}: Props) => {
+
     const [text, setText] = useState("");
-    let textInput = React.createRef();
 
     const updateText = (event: ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value)
@@ -11,6 +16,7 @@ export const AddNoteComponent = () => {
 
     const handleClickEvent = () => {
         console.log(text);
+        addNewNote(text);
     }
 
     return (
