@@ -9,6 +9,12 @@ interface Props {
 
 export const AddNoteComponent = ({noteList, addNewNote}: Props) => {
 
+    const [text, setText] = useState("");
+
+    const updateText = (event: ChangeEvent<HTMLInputElement>) => {
+        setText(event.target.value)
+    }
+
     const refTextInput = React.useRef<HTMLInputElement>(null)
 
     const handleClickEvent = () => {

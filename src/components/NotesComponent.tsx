@@ -2,19 +2,29 @@ import React, {useState} from "react";
 import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
+import {ShowAllNoteComponent} from "./ShowAllNoteComponent";
 
 export const NotesComponent = () => {
 
     const [noteList, setNoteList] = useState<Note[]>([]);
+    const [filteredNoteList, setFilteredNoteList] = useState<Note[]>([]);
+    const [showAll, setShowAll] = useState(false)
+    const [counter, setCounter] = useState(0)
 
-    const newNoteAdded = (name: string): void => {
+    const addNewNote = (name: string): void => {
         let newNote = {
             name: name,
             priority: 0,
-            id: noteList.length + 1,
+            id: counter,
             checked: false
         }
-        setNoteList(oldNoteList => [...oldNoteList, newNote]);
+        let tempNoteListArray = [... noteList];
+        tempNoteListArray.push(newNote)
+        tempNoteListArray.sort((firstNote, secondNote) => compareNotes(firstNote, secondNote))
+        console.log(tempNoteListArray);
+
+        setNoteList(tempNoteListArray);
+        setCounter(counter + 1)
     }
 
     const deleteNote = (noteId: number): void => {
@@ -29,23 +39,54 @@ export const NotesComponent = () => {
         console.log(noteList)
     }
 
-    const checkNote = (noteId: number): void => {
+    const compareNotes = (a: Note, b: Note): number => {
+        if (a.id > b.id) {
+            return -1;
+        }
+        if (a.id < b.id) {
+            return 1;
+        }
+        return 0;
+    }
+
+    const setNotePriority = (noteId: number, priority: number): void => {
         let tempNoteListArray = [... noteList];
-        tempNoteListArray.forEach((item, index) => {
+        tempNoteListArray.forEach((item) => {
             if (item.id === noteId) {
-                item.checked = true;
+                item.priority = priority;
             }
         });
+
         setNoteList(tempNoteListArray);
         console.log(noteList)
     }
 
+    const filterNoteList = (noteName: string): void => {
+        const notes = noteList.filter(note => note.name.startsWith(noteName));
+        setFilteredNoteList(notes);
+    }
+
+    const completeNote = (noteId: number, isChecked: boolean): void => {
+        let tempNoteListArray = [... noteList];
+        tempNoteListArray.forEach((item) => {
+            if (item.id === noteId) {
+                item.checked = isChecked;
+            }
+        });
+
+        setNoteList(tempNoteListArray);
+        console.log(noteList)
+    }
+
+    const showAllNotes = (showAll: boolean ): void => {
+        setShowAll(showAll);
+    }
+
     return (
         <div className="container">
-            <AddNoteComponent noteList={noteList} addNewNote={newNoteAdded}/>
-            <div className="list-notes">
-                <NoteListComponent checkNote={checkNote} deleteNote={deleteNote} noteList={noteList}/>
-            </div>
+            <AddNoteComponent noteList={noteList} addNewNote={addNewNote}/>
+            <ShowAllNoteComponent showAllNotes={showAllNotes} />
+            <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote} showAllNotes={showAll} noteList={noteList} />
         </div>
     );
 }

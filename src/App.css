@@ -12,6 +12,24 @@
   text-decoration: line-through;
 }
 
+.note-priorities {
+  display: inline;
+}
+
+.note-priorities span {
+  opacity: 0.2;
+}
+
+.note-priorities span:hover {
+  cursor: default;
+}
+
+.note-priority-1 :nth-child(1),
+.note-priority-2 :nth-child(-n+2),
+.note-priority-3 :nth-child(-n+3){
+  opacity: 1;
+}
+
 
 /*CreateReactApp Code*/
 .App {
