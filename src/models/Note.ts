@@ -1,5 +1,6 @@
 export interface Note  {
+    id: number
     name: string,
     priority: number,
-    id: number
+    checked: boolean,
 }

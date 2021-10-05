@@ -1,5 +1,6 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import { Note } from "../models/Note";
+
 
 interface Props {
     noteList: Note[];
@@ -8,20 +9,20 @@ interface Props {
 
 export const AddNoteComponent = ({noteList, addNewNote}: Props) => {
 
-    const [text, setText] = useState("");
-
-    const updateText = (event: ChangeEvent<HTMLInputElement>) => {
-        setText(event.target.value)
-    }
+    const refTextInput = React.useRef<HTMLInputElement>(null)
 
     const handleClickEvent = () => {
-        console.log(text);
-        addNewNote(text);
+        const inputElement = refTextInput.current;
+        if (inputElement != null && inputElement.value != "") {
+            addNewNote(String(inputElement.value));
+            inputElement.value = "";
+        }
     }
 
     return (
         <div className="add-notes">
-            <input onChange={updateText} type="text" placeholder="Aufgabe..." id="add-note-textfield" name="add-note-textfield"/>
+            <input ref={refTextInput} type="text" placeholder="Aufgabe..." id="add-note-textfield"
+                   name="add-note-textfield"/>
             <button type="button" onClick={handleClickEvent}>Hinzufügen</button>
         </div>
     );

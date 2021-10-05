@@ -8,6 +8,10 @@
   display: flex;
 }
 
+.note-checked {
+  text-decoration: line-through;
+}
+
 
 /*CreateReactApp Code*/
 .App {
