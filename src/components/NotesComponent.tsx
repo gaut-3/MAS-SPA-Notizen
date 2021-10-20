@@ -3,6 +3,7 @@ import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
 import {ShowAllNoteComponent} from "./ShowAllNoteComponent";
+import {Grid} from "@mui/material";
 
 export const NotesComponent = () => {
 
@@ -92,11 +93,17 @@ export const NotesComponent = () => {
     }
 
     return (
-        <div className="container">
-            <AddNoteComponent noteList={noteList} addNewNote={addNewNote} filterNoteList={filterNoteList}/>
-            <ShowAllNoteComponent showAllNotes={showAllNotes}/>
-            <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote}
-                               showAllNotes={showAll} noteList={filteredNoteList}/>
-        </div>
+        <Grid container spacing={2} justifyContent="center" style={{ minHeight: '100vh', maxWidth: '600px', margin: '0 auto' }}>
+            <Grid item xs={8} style={{textAlign: "center"}}>
+                <AddNoteComponent noteList={noteList} addNewNote={addNewNote} filterNoteList={filterNoteList}/>
+            </Grid>
+            <Grid item xs={4} style={{textAlign: "center"}}>
+                <ShowAllNoteComponent showAllNotes={showAllNotes}/>
+            </Grid>
+            <Grid item xs={12} style={{textAlign: "center"}}>
+                <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote}
+                                   showAllNotes={showAll} noteList={filteredNoteList}/>
+            </Grid>
+        </Grid>
     );
 }

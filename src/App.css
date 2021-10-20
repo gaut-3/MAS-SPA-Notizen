@@ -30,6 +30,16 @@
   opacity: 1;
 }
 
+.note-priorities svg {
+  opacity: 0.2;
+  color: black;
+}
+
+.note-list {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 
 /*CreateReactApp Code*/
 .App {
