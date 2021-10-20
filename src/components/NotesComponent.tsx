@@ -27,7 +27,6 @@ export const NotesComponent = () => {
         setCounter(counter + 1)
     }
 
-
     useEffect(() => {
         setFilteredNoteList(noteList);
     }, [noteList])

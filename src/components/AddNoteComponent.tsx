@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import { Note } from "../models/Note";
+import {TextField, Button} from "@mui/material";
 
 
 interface Props {
@@ -12,27 +13,23 @@ export const AddNoteComponent = ({noteList, addNewNote, filterNoteList}: Props) 
 
     const [text, setText] = useState("");
 
-    const updateText = (event: ChangeEvent<HTMLInputElement>) => {
+    const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value)
         console.log(event.target.value)
         filterNoteList(event.target.value);
     }
 
-    const refTextInput = React.useRef<HTMLInputElement>(null)
-
     const handleClickEvent = () => {
-        const inputElement = refTextInput.current;
-        if (inputElement != null && inputElement.value != "") {
-            addNewNote(String(inputElement.value));
-            inputElement.value = "";
+        if (text !== "") {
+            addNewNote(String(text));
+            setText("");
         }
     }
 
     return (
         <div className="add-notes">
-            <input ref={refTextInput} type="text" onChange={updateText} placeholder="Aufgabe..." id="add-note-textfield"
-                   name="add-note-textfield"/>
-            <button type="button" onClick={handleClickEvent}>Hinzufügen</button>
+            <TextField value={text} variant={"outlined"} onChange={handleChangeEvent} placeholder="Aufgabe..."/>
+            <Button variant="outlined" onClick={handleClickEvent}>Hinzufügen</Button>
         </div>
     );
 }
