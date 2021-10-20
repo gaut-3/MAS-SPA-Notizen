@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
@@ -18,7 +18,7 @@ export const NotesComponent = () => {
             id: counter,
             checked: false
         }
-        let tempNoteListArray = [... noteList];
+        let tempNoteListArray = [...noteList];
         tempNoteListArray.push(newNote)
         tempNoteListArray.sort((firstNote, secondNote) => compareNotes(firstNote, secondNote))
         console.log(tempNoteListArray);
@@ -27,8 +27,14 @@ export const NotesComponent = () => {
         setCounter(counter + 1)
     }
 
+
+    useEffect(() => {
+        setFilteredNoteList(noteList);
+    }, [noteList])
+
+
     const deleteNote = (noteId: number): void => {
-        let tempNoteListArray = [... noteList];
+        let tempNoteListArray = [...noteList];
         tempNoteListArray.forEach((item, index) => {
             if (item.id === noteId) {
                 tempNoteListArray.splice(index, 1);
@@ -50,7 +56,7 @@ export const NotesComponent = () => {
     }
 
     const setNotePriority = (noteId: number, priority: number): void => {
-        let tempNoteListArray = [... noteList];
+        let tempNoteListArray = [...noteList];
         tempNoteListArray.forEach((item) => {
             if (item.id === noteId) {
                 item.priority = priority;
@@ -61,13 +67,17 @@ export const NotesComponent = () => {
         console.log(noteList)
     }
 
-    const filterNoteList = (noteName: string): void => {
-        const notes = noteList.filter(note => note.name.startsWith(noteName));
-        setFilteredNoteList(notes);
+    const filterNoteList = (searchParam: string): void => {
+        if (searchParam === "") {
+            setFilteredNoteList(noteList);
+        } else {
+            const notes = noteList.filter(note => note.name.toLowerCase().startsWith(searchParam.toLowerCase()));
+            setFilteredNoteList(notes);
+        }
     }
 
     const completeNote = (noteId: number, isChecked: boolean): void => {
-        let tempNoteListArray = [... noteList];
+        let tempNoteListArray = [...noteList];
         tempNoteListArray.forEach((item) => {
             if (item.id === noteId) {
                 item.checked = isChecked;
@@ -78,15 +88,16 @@ export const NotesComponent = () => {
         console.log(noteList)
     }
 
-    const showAllNotes = (showAll: boolean ): void => {
+    const showAllNotes = (showAll: boolean): void => {
         setShowAll(showAll);
     }
 
     return (
         <div className="container">
-            <AddNoteComponent noteList={noteList} addNewNote={addNewNote}/>
-            <ShowAllNoteComponent showAllNotes={showAllNotes} />
-            <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote} showAllNotes={showAll} noteList={noteList} />
+            <AddNoteComponent noteList={noteList} addNewNote={addNewNote} filterNoteList={filterNoteList}/>
+            <ShowAllNoteComponent showAllNotes={showAllNotes}/>
+            <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote}
+                               showAllNotes={showAll} noteList={filteredNoteList}/>
         </div>
     );
 }
