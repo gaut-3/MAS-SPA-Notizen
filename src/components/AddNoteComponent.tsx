@@ -1,21 +1,18 @@
 import React, {ChangeEvent, useState} from "react";
-import { Note } from "../models/Note";
-import {TextField, Button} from "@mui/material";
+import {Button, Grid, TextField} from "@mui/material";
 
 
 interface Props {
-    noteList: Note[];
     addNewNote: (arg: string) => void
-    filterNoteList:(arg: string) => void
+    filterNoteList: (arg: string) => void
 }
 
-export const AddNoteComponent = ({noteList, addNewNote, filterNoteList}: Props) => {
+export const AddNoteComponent = ({addNewNote, filterNoteList}: Props) => {
 
     const [text, setText] = useState("");
 
     const handleChangeEvent = (event: ChangeEvent<HTMLInputElement>) => {
         setText(event.target.value)
-        console.log(event.target.value)
         filterNoteList(event.target.value);
     }
 
@@ -27,9 +24,15 @@ export const AddNoteComponent = ({noteList, addNewNote, filterNoteList}: Props) 
     }
 
     return (
-        <div className="add-notes">
-            <TextField value={text} variant={"outlined"} onChange={handleChangeEvent} placeholder="Aufgabe..."/>
-            <Button variant="outlined" onClick={handleClickEvent}>Hinzufügen</Button>
-        </div>
+        <Grid container spacing={0}>
+            <Grid item xs={8}>
+                <TextField fullWidth value={text} variant={"outlined"} onChange={handleChangeEvent}
+                           placeholder="Aufgabe..."/>
+            </Grid>
+            <Grid item xs={4}>
+                <Button fullWidth style={{height: "100%"}} size="large" variant="outlined"
+                        onClick={handleClickEvent}>Hinzufügen</Button>
+            </Grid>
+        </Grid>
     );
 }

@@ -2,13 +2,14 @@ import React, {useEffect, useState} from "react";
 import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
-import {ShowAllNoteComponent} from "./ShowAllNoteComponent";
+import {ShowAllNotesComponent} from "./ShowAllNotesComponent";
 import {Grid} from "@mui/material";
 
 export const NotesComponent = () => {
 
     const [noteList, setNoteList] = useState<Note[]>([]);
     const [filteredNoteList, setFilteredNoteList] = useState<Note[]>([]);
+    const [searchParam, setSearchParam] = useState("")
     const [showAll, setShowAll] = useState(false)
     const [counter, setCounter] = useState(0)
 
@@ -17,7 +18,7 @@ export const NotesComponent = () => {
             name: name,
             priority: 0,
             id: counter,
-            checked: false
+            isComplete: false
         }
         let tempNoteListArray = [...noteList];
         tempNoteListArray.push(newNote)
@@ -26,6 +27,7 @@ export const NotesComponent = () => {
 
         setNoteList(tempNoteListArray);
         setCounter(counter + 1)
+        setSearchParam("")
     }
 
     useEffect(() => {
@@ -71,21 +73,22 @@ export const NotesComponent = () => {
         if (searchParam === "") {
             setFilteredNoteList(noteList);
         } else {
-            const notes = noteList.filter(note => note.name.toLowerCase().startsWith(searchParam.toLowerCase()));
+            const notes = noteList.filter(note => note.name.toLowerCase().includes(searchParam.toLowerCase()));
             setFilteredNoteList(notes);
         }
+        setSearchParam(searchParam);
+        console.log(searchParam)
     }
 
     const completeNote = (noteId: number, isChecked: boolean): void => {
         let tempNoteListArray = [...noteList];
         tempNoteListArray.forEach((item) => {
             if (item.id === noteId) {
-                item.checked = isChecked;
+                item.isComplete = isChecked;
             }
         });
 
         setNoteList(tempNoteListArray);
-        console.log(noteList)
     }
 
     const showAllNotes = (showAll: boolean): void => {
@@ -93,16 +96,16 @@ export const NotesComponent = () => {
     }
 
     return (
-        <Grid container spacing={2} justifyContent="center" style={{ minHeight: '100vh', maxWidth: '600px', margin: '0 auto' }}>
-            <Grid item xs={8} style={{textAlign: "center"}}>
-                <AddNoteComponent noteList={noteList} addNewNote={addNewNote} filterNoteList={filterNoteList}/>
+        <Grid container spacing={2} justifyContent="center" style={{ maxWidth: '600px', margin: '0 auto' }}>
+            <Grid item xs={12} style={{textAlign: "center"}}>
+                <AddNoteComponent addNewNote={addNewNote} filterNoteList={filterNoteList}/>
             </Grid>
-            <Grid item xs={4} style={{textAlign: "center"}}>
-                <ShowAllNoteComponent showAllNotes={showAllNotes}/>
+            <Grid item xs={12}>
+                <ShowAllNotesComponent showAllNotes={showAllNotes}/>
             </Grid>
             <Grid item xs={12} style={{textAlign: "center"}}>
                 <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote}
-                                   showAllNotes={showAll} noteList={filteredNoteList}/>
+                                   showAllNotes={showAll} noteList={noteList} searchParam={searchParam}/>
             </Grid>
         </Grid>
     );

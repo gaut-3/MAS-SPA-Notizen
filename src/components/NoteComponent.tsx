@@ -1,6 +1,6 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, Fragment} from "react";
 import {Note} from "../models/Note";
-import {Button, Checkbox, ListItem, ListItemIcon, TextField, Typography} from "@mui/material";
+import {Button, Checkbox, Grid, Typography} from "@mui/material";
 import BoltIcon from "@mui/icons-material/Bolt";
 
 
@@ -17,7 +17,7 @@ export const NoteComponent = ({note, deleteNote, completeNote, setNotePriority}:
         deleteNote(noteId)
     }
 
-    const handleCheckedChange = (noteId: number, event: ChangeEvent<HTMLInputElement>) => {
+    const handleIsCompleteChange = (noteId: number, event: ChangeEvent<HTMLInputElement>) => {
         completeNote(noteId, event.target.checked);
     }
 
@@ -26,16 +26,23 @@ export const NoteComponent = ({note, deleteNote, completeNote, setNotePriority}:
     }
 
     return (
-        <ListItem key={note.id}>
-            <Checkbox checked={note.checked}
-                      onChange={(event) => handleCheckedChange(note.id, event)}></Checkbox>
-            <div className={"note-priorities note-priority-" + note.priority}>
-                <BoltIcon onClick={() => handlePriorityClick(note.id, 1)}/>
-                <BoltIcon onClick={() => handlePriorityClick(note.id, 2)}/>
-                <BoltIcon onClick={() => handlePriorityClick(note.id, 3)}/>
-            </div>
-            <Typography className={(note.checked) ? "note-checked" : ""} variant="body1">{note.name}</Typography>
-            <Button size="small" variant="outlined" onClick={() => handleDeleteClick(note.id)}>Löschen</Button>
-        </ListItem>
+        <Fragment>
+            <Grid style={{textAlign: "left"}} item xs={1}>
+                <Checkbox checked={note.isComplete}
+                          onChange={(event) => handleIsCompleteChange(note.id, event)} />
+            </Grid>
+            <Grid item className={"note-priorities note-priority-" + note.priority} xs={2}>
+                    <BoltIcon onClick={() => handlePriorityClick(note.id, 1)}/>
+                    <BoltIcon onClick={() => handlePriorityClick(note.id, 2)}/>
+                    <BoltIcon onClick={() => handlePriorityClick(note.id, 3)}/>
+            </Grid>
+            <Grid style={{textAlign: "left"}} item xs={6}>
+                <Typography className={(note.isComplete) ? "note-checked" : ""} variant="body1">{note.name}</Typography>
+            </Grid>
+            <Grid style={{textAlign: "right"}} item xs={3}>
+                <Button size="small" variant="outlined" onClick={() => handleDeleteClick(note.id)}>Löschen</Button>
+            </Grid>
+        </Fragment>
+
     );
 }
