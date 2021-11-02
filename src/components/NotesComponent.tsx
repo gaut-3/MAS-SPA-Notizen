@@ -93,6 +93,10 @@ export const NotesComponent = () => {
         setShowAll(showAll);
     }
 
+    const setSortType = (sortType: string) : void => {
+
+    }
+
     return (
         <Grid container spacing={2} justifyContent="center" style={{maxWidth: '600px', margin: '0 auto'}}>
             <Grid item xs={12} style={{textAlign: "center"}}>
@@ -111,7 +115,8 @@ export const NotesComponent = () => {
                                    setNotePriority={setNotePriority}
                                    completeNote={completeNote}
                                    deleteNote={deleteNote}
-                                   changeNoteName={changeNoteName}/>
+                                   changeNoteName={changeNoteName}
+                                    setSortType={setSortType}/>
 
             </Grid>
         </Grid>

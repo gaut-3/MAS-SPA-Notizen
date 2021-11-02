@@ -40,6 +40,18 @@
   margin-left: auto;
 }
 
+.sort-icon:after {
+  font-size: large;
+  padding-left: 3px;
+}
+
+.sort-icon-up:after {
+  content:"\1F815";
+}
+
+.sort-icon-down:after {
+  content:" \1F817";
+}
 
 /*CreateReactApp Code*/
 .App {

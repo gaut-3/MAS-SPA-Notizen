@@ -1,9 +1,9 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import {Note} from "../models/Note";
-import {Grid, Typography} from "@mui/material";
+import {Button, Grid, Link, Typography} from "@mui/material";
 import {NoteComponent} from "./NoteComponent";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import {ArrowDownward} from "@mui/icons-material";
 
 interface Props {
     noteList: Note[];
@@ -13,6 +13,7 @@ interface Props {
     deleteNote: (noteId: number) => void
     completeNote: (noteId: number, isComplete: boolean) => void
     changeNoteName: (noteId: number, noteName: string) => void
+    setSortType: (sortType: string) => void
 }
 
 
@@ -23,17 +24,36 @@ export const NoteListComponent = ({
                                       deleteNote,
                                       completeNote,
                                       setNotePriority,
-                                      changeNoteName
+                                      changeNoteName,
+                                      setSortType
                                   }: Props) => {
+
+    const [sortPriority, setSortPriority] = useState("")
+    const [sortName, setSortName] = useState("")
+
+    const handleSortClick = (sortCloumn: string, event: React.MouseEvent) => {
+
+    }
+
+
+    const switchSort = (sortIcon: string): string =>  {
+        if(sortIcon === "sort-icon-up") {
+            return "sort-icon-down";
+        } else if(sortIcon ===  "sort-icon-down") {
+            return "sort-icon-up";
+        } else {
+            return "sort-icon-up";
+        }
+    }
 
     return (
         <Grid container spacing={2} rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
 
-            <Grid item  style={{textAlign: "right"}} xs={4}>
-                <Typography>Wichtigkeit<ArrowUpwardIcon fontSize="small" fontStyle=""/></Typography>
+            <Grid item style={{textAlign: "right"}} xs={4}>
+                <Link onClick={e => handleSortClick("priority", e)} underline="none"><Typography className={"sort-icon " + sortPriority}>Wichtigkeit</Typography></Link>
             </Grid>
             <Grid style={{textAlign: "left"}} item xs={8}>
-                <Typography>Aufgabe</Typography>
+                <Link onClick={e => handleSortClick("priority", e)} underline="none"><Typography className={"sort-icon " + sortName}>Aufgabe</Typography></Link>
             </Grid>
 
             {noteList.filter(note => {
