@@ -1,22 +1,24 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
-import {ShowAllNoteComponent} from "./ShowAllNoteComponent";
+import {ShowAllNotesComponent} from "./ShowAllNotesComponent";
+import {Grid, Typography} from "@mui/material";
 
 export const NotesComponent = () => {
 
     const [noteList, setNoteList] = useState<Note[]>([]);
-    const [filteredNoteList, setFilteredNoteList] = useState<Note[]>([]);
+    const [searchParam, setSearchParam] = useState("")
     const [showAll, setShowAll] = useState(false)
-    const [counter, setCounter] = useState(0)
+    const [idCounter, setIdCounter] = useState(0)
+    const [sort, setSort] = useState("")
 
     const addNewNote = (name: string): void => {
         let newNote = {
             name: name,
             priority: 0,
-            id: counter,
-            checked: false
+            id: idCounter,
+            isComplete: false
         }
         let tempNoteListArray = [...noteList];
         tempNoteListArray.push(newNote)
@@ -24,13 +26,9 @@ export const NotesComponent = () => {
         console.log(tempNoteListArray);
 
         setNoteList(tempNoteListArray);
-        setCounter(counter + 1)
+        setIdCounter(idCounter + 1)
+        setSearchParam("")
     }
-
-    useEffect(() => {
-        setFilteredNoteList(noteList);
-    }, [noteList])
-
 
     const deleteNote = (noteId: number): void => {
         let tempNoteListArray = [...noteList];
@@ -63,28 +61,32 @@ export const NotesComponent = () => {
         });
 
         setNoteList(tempNoteListArray);
-        console.log(noteList)
     }
 
     const filterNoteList = (searchParam: string): void => {
-        if (searchParam === "") {
-            setFilteredNoteList(noteList);
-        } else {
-            const notes = noteList.filter(note => note.name.toLowerCase().startsWith(searchParam.toLowerCase()));
-            setFilteredNoteList(notes);
-        }
+        setSearchParam(searchParam);
     }
 
-    const completeNote = (noteId: number, isChecked: boolean): void => {
+    const completeNote = (noteId: number, isComplete: boolean): void => {
         let tempNoteListArray = [...noteList];
         tempNoteListArray.forEach((item) => {
             if (item.id === noteId) {
-                item.checked = isChecked;
+                item.isComplete = isComplete;
             }
         });
 
         setNoteList(tempNoteListArray);
-        console.log(noteList)
+    }
+
+    const changeNoteName = (noteId: number, noteName: string): void => {
+        let tempNoteListArray = [...noteList];
+        tempNoteListArray.forEach((item) => {
+            if (item.id === noteId) {
+                item.name = noteName;
+            }
+        });
+
+        setNoteList(tempNoteListArray);
     }
 
     const showAllNotes = (showAll: boolean): void => {
@@ -92,11 +94,26 @@ export const NotesComponent = () => {
     }
 
     return (
-        <div className="container">
-            <AddNoteComponent noteList={noteList} addNewNote={addNewNote} filterNoteList={filterNoteList}/>
-            <ShowAllNoteComponent showAllNotes={showAllNotes}/>
-            <NoteListComponent setNotePriority={setNotePriority} completeNote={completeNote} deleteNote={deleteNote}
-                               showAllNotes={showAll} noteList={filteredNoteList}/>
-        </div>
+        <Grid container spacing={2} justifyContent="center" style={{maxWidth: '600px', margin: '0 auto'}}>
+            <Grid item xs={12} style={{textAlign: "center"}}>
+                <Typography variant="h1">Notiz App</Typography>
+            </Grid>
+            <Grid item xs={12} style={{textAlign: "center"}}>
+                <AddNoteComponent addNewNote={addNewNote} filterNoteList={filterNoteList}/>
+            </Grid>
+            <Grid item xs={12}>
+                <ShowAllNotesComponent showAllNotes={showAllNotes}/>
+            </Grid>
+            <Grid item xs={12} style={{textAlign: "center"}}>
+                <NoteListComponent noteList={noteList}
+                                   showAllNotes={showAll}
+                                   searchParam={searchParam}
+                                   setNotePriority={setNotePriority}
+                                   completeNote={completeNote}
+                                   deleteNote={deleteNote}
+                                   changeNoteName={changeNoteName}/>
+
+            </Grid>
+        </Grid>
     );
 }

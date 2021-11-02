@@ -1,50 +1,57 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import {Note} from "../models/Note";
+import {Grid, Typography} from "@mui/material";
+import {NoteComponent} from "./NoteComponent";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 interface Props {
     noteList: Note[];
-    deleteNote: (noteId: number) => void
-    completeNote: (noteId: number, isChecked: boolean) => void
-    setNotePriority: (noteId: number, priority: number) => void
+    searchParam: string
     showAllNotes: boolean
+    setNotePriority: (noteId: number, priority: number) => void
+    deleteNote: (noteId: number) => void
+    completeNote: (noteId: number, isComplete: boolean) => void
+    changeNoteName: (noteId: number, noteName: string) => void
 }
 
 
-export const NoteListComponent = ({noteList, deleteNote, completeNote, setNotePriority, showAllNotes}: Props) => {
-
-    const handleDeleteClick = (noteId: number) => {
-        deleteNote(noteId)
-    }
-
-    const handleCheckedChange = (noteId: number, event: ChangeEvent<HTMLInputElement>) => {
-        completeNote(noteId, event.target.checked);
-    }
-
-    const handlePriorityClick = (noteId: number, priority: number) => {
-        setNotePriority(noteId, priority)
-    }
+export const NoteListComponent = ({
+                                      noteList,
+                                      searchParam,
+                                      showAllNotes,
+                                      deleteNote,
+                                      completeNote,
+                                      setNotePriority,
+                                      changeNoteName
+                                  }: Props) => {
 
     return (
-        <div className="list-notes">
-            {noteList.map(note => ((showAllNotes || !note.checked) &&
-                <div key={note.id}>
-                    <input type="checkbox" checked={note.checked} onChange={(e) => handleCheckedChange(note.id, e)}
-                           key={note.id}/>
-                    <div className={"note-priorities note-priority-" + note.priority}>
-                        <span onClick={() => handlePriorityClick(note.id, 1)}>
-                            &#128498;
-                        </span>
-                        <span onClick={() => handlePriorityClick(note.id, 2)}>
-                            &#128498;
-                        </span>
-                        <span onClick={() => handlePriorityClick(note.id, 3)}>
-                            &#128498;
-                        </span>
-                    </div>
-                    <span className={(note.checked) ? "note-checked" : ""}>{note.name}</span>
-                    <button onClick={() => handleDeleteClick(note.id)} type="button">Löschen</button>
-                </div>
-            ))}
-        </div>
+        <Grid container spacing={2} rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
+
+            <Grid item  style={{textAlign: "right"}} xs={4}>
+                <Typography>Wichtigkeit<ArrowUpwardIcon fontSize="small" fontStyle=""/></Typography>
+            </Grid>
+            <Grid style={{textAlign: "left"}} item xs={8}>
+                <Typography>Aufgabe</Typography>
+            </Grid>
+
+            {noteList.filter(note => {
+                    if (searchParam !== "") {
+                        return note.name.toLowerCase().includes(searchParam.toLowerCase())
+                    } else {
+                        return note
+                    }
+                }
+            ).filter(note => (showAllNotes || !note.isComplete)).map((note) => {
+                return (
+                    <NoteComponent note={note}
+                                   completeNote={completeNote}
+                                   changeNotePriority={setNotePriority}
+                                   deleteNote={deleteNote}
+                                   changeNoteName={changeNoteName}/>
+                );
+            })}
+        </Grid>
     );
 }
