@@ -1,9 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
 import {ShowAllNotesComponent} from "./ShowAllNotesComponent";
 import {Grid, Typography} from "@mui/material";
+import {NoteSortOrder} from "../models/NoteSortOrder";
+import {NoteSortColumn} from "../models/NoteSortColumn";
+import {NoteOrder} from "../models/NoteOrder";
 
 export const NotesComponent = () => {
 
@@ -11,7 +14,13 @@ export const NotesComponent = () => {
     const [searchParam, setSearchParam] = useState("")
     const [showAll, setShowAll] = useState(false)
     const [idCounter, setIdCounter] = useState(0)
-    const [sort, setSort] = useState("")
+    const [sortType, setSortType] = useState<string>(NoteSortOrder.DESC)
+    const [sortColumn, setSortColumn] = React.useState<keyof Note>("name");
+    const [sortOrder, setSortOrder] = React.useState({
+        sortColumn: NoteSortColumn.NAME,
+        sortOrder: NoteSortOrder.DESC,
+        icon: "sort-icon-up"
+    });
 
     const addNewNote = (name: string): void => {
         let newNote = {
@@ -22,8 +31,11 @@ export const NotesComponent = () => {
         }
         let tempNoteListArray = [...noteList];
         tempNoteListArray.push(newNote)
-        tempNoteListArray.sort((firstNote, secondNote) => compareNotes(firstNote, secondNote))
-        console.log(tempNoteListArray);
+        console.log(sortOrder.icon)
+        console.log(sortOrder.sortColumn)
+        tempNoteListArray = sortNoteList(tempNoteListArray, sortOrder);
+        //tempNoteListArray.sort((firstNote, secondNote) => compareNotes(firstNote, secondNote))
+        console.log(tempNoteListArray)
 
         setNoteList(tempNoteListArray);
         setIdCounter(idCounter + 1)
@@ -51,6 +63,7 @@ export const NotesComponent = () => {
         }
         return 0;
     }
+
 
     const setNotePriority = (noteId: number, priority: number): void => {
         let tempNoteListArray = [...noteList];
@@ -92,6 +105,43 @@ export const NotesComponent = () => {
     const showAllNotes = (showAll: boolean): void => {
         setShowAll(showAll);
     }
+   /* useEffect(() => {
+        console.log("sort " + sortOrder.sortColumn)
+        console.log("sort " + sortOrder.icon)
+        let tempNoteListArray = [...noteList];
+        tempNoteListArray = sortNoteList(tempNoteListArray);
+
+        console.log("before");
+        console.log(tempNoteListArray)
+        console.log("after");
+        setNoteList(tempNoteListArray);
+        console.log(noteList)
+    }, [sortOrder])*/
+
+    const sortNoteList = (noteList: Note[], noteOrder: NoteOrder): Note[] => {
+        const notes = noteList.sort((firstNote, secondNote) => {
+            if (firstNote[noteOrder.sortColumn] > secondNote[noteOrder.sortColumn]) {
+                return noteOrder.icon === "sort-icon-up" ?  1: -1
+            } else if (firstNote[noteOrder.sortColumn] < secondNote[noteOrder.sortColumn]) {
+                return noteOrder.icon === "sort-icon-up" ? -1 : 1
+            }
+            return 0;
+        });
+        setNoteList(notes);
+        return notes
+    }
+
+    const changeSortOrder = (noteOrder: NoteOrder): void => {
+        let tempNoteListArray = [...noteList];
+        tempNoteListArray = sortNoteList(tempNoteListArray, noteOrder);
+        console.log("before");
+        console.log(tempNoteListArray)
+        console.log("after");
+       // setNoteList(tempNoteListArray);
+        setSortOrder(noteOrder)
+        console.log(noteList)
+
+    }
 
     return (
         <Grid container spacing={2} justifyContent="center" style={{maxWidth: '600px', margin: '0 auto'}}>
@@ -111,7 +161,12 @@ export const NotesComponent = () => {
                                    setNotePriority={setNotePriority}
                                    completeNote={completeNote}
                                    deleteNote={deleteNote}
-                                   changeNoteName={changeNoteName}/>
+                                   changeNoteName={changeNoteName}
+                                   setSortColumn={setSortColumn}
+                                   setSortType={setSortType}
+                                   sortOrder={sortOrder}
+                                   setSortOrder={changeSortOrder}
+                />
 
             </Grid>
         </Grid>
