@@ -44,9 +44,9 @@ export const NoteComponent = ({note, deleteNote, completeNote, changeNotePriorit
             <Grid style={{textAlign: "left"}} item xs={6}>
                 <TextField fullWidth
                            style={{overflowWrap: "break-word"}}
-                           className={(note.isComplete) ? "note-checked" : ""}
                            onChange={e => handleNoteNameChange(note.id, e)} value={note.name}
-                           InputProps={{disableUnderline: true}}
+                           // note-checked class needs to be set like this, because in Firefox it does not work otherwise
+                           InputProps={{disableUnderline: true, classes: { input: (note.isComplete) ? "note-checked" : ""}}}
                            variant="standard"/>
             </Grid>
             <Grid style={{textAlign: "right"}} item xs={2}>
