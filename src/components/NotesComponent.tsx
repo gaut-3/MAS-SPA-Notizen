@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Note} from "../models/Note";
 import {AddNoteComponent} from "./AddNoteComponent";
 import {NoteListComponent} from "./NoteListComponent";
@@ -14,8 +14,6 @@ export const NotesComponent = () => {
     const [searchParam, setSearchParam] = useState("")
     const [showAll, setShowAll] = useState(false)
     const [idCounter, setIdCounter] = useState(0)
-    const [sortType, setSortType] = useState<string>(NoteSortOrder.DESC)
-    const [sortColumn, setSortColumn] = React.useState<keyof Note>("name");
     const [sortOrder, setSortOrder] = React.useState({
         sortColumn: NoteSortColumn.NAME,
         sortOrder: NoteSortOrder.DESC,
@@ -53,17 +51,6 @@ export const NotesComponent = () => {
         setNoteList(tempNoteListArray);
         console.log(noteList)
     }
-
-    const compareNotes = (a: Note, b: Note): number => {
-        if (a.id > b.id) {
-            return -1;
-        }
-        if (a.id < b.id) {
-            return 1;
-        }
-        return 0;
-    }
-
 
     const setNotePriority = (noteId: number, priority: number): void => {
         let tempNoteListArray = [...noteList];
@@ -105,23 +92,23 @@ export const NotesComponent = () => {
     const showAllNotes = (showAll: boolean): void => {
         setShowAll(showAll);
     }
-   /* useEffect(() => {
-        console.log("sort " + sortOrder.sortColumn)
-        console.log("sort " + sortOrder.icon)
-        let tempNoteListArray = [...noteList];
-        tempNoteListArray = sortNoteList(tempNoteListArray);
+    /* useEffect(() => {
+         console.log("sort " + sortOrder.sortColumn)
+         console.log("sort " + sortOrder.icon)
+         let tempNoteListArray = [...noteList];
+         tempNoteListArray = sortNoteList(tempNoteListArray);
 
-        console.log("before");
-        console.log(tempNoteListArray)
-        console.log("after");
-        setNoteList(tempNoteListArray);
-        console.log(noteList)
-    }, [sortOrder])*/
+         console.log("before");
+         console.log(tempNoteListArray)
+         console.log("after");
+         setNoteList(tempNoteListArray);
+         console.log(noteList)
+     }, [sortOrder])*/
 
     const sortNoteList = (noteList: Note[], noteOrder: NoteOrder): Note[] => {
         const notes = noteList.sort((firstNote, secondNote) => {
             if (firstNote[noteOrder.sortColumn] > secondNote[noteOrder.sortColumn]) {
-                return noteOrder.icon === "sort-icon-up" ?  1: -1
+                return noteOrder.icon === "sort-icon-up" ? 1 : -1
             } else if (firstNote[noteOrder.sortColumn] < secondNote[noteOrder.sortColumn]) {
                 return noteOrder.icon === "sort-icon-up" ? -1 : 1
             }
@@ -137,7 +124,7 @@ export const NotesComponent = () => {
         console.log("before");
         console.log(tempNoteListArray)
         console.log("after");
-       // setNoteList(tempNoteListArray);
+        // setNoteList(tempNoteListArray);
         setSortOrder(noteOrder)
         console.log(noteList)
 
@@ -162,10 +149,8 @@ export const NotesComponent = () => {
                                    completeNote={completeNote}
                                    deleteNote={deleteNote}
                                    changeNoteName={changeNoteName}
-                                   setSortColumn={setSortColumn}
-                                   setSortType={setSortType}
                                    sortOrder={sortOrder}
-                                   setSortOrder={changeSortOrder}
+                                   changeSortOrder={changeSortOrder}
                 />
 
             </Grid>

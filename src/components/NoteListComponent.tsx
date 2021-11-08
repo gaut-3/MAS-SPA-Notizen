@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import {Note} from "../models/Note";
 import {Grid, Link, Typography} from "@mui/material";
 import {NoteComponent} from "./NoteComponent";
@@ -14,9 +14,7 @@ interface Props {
     deleteNote: (noteId: number) => void
     completeNote: (noteId: number, isComplete: boolean) => void
     changeNoteName: (noteId: number, noteName: string) => void
-    setSortColumn: (sortColumn: keyof Note) => void
-    setSortType: (sortOrder: string) => void
-    setSortOrder: (noteOrder: NoteOrder) => void
+    changeSortOrder: (noteOrder: NoteOrder) => void
     sortOrder: NoteOrder
 }
 
@@ -29,33 +27,19 @@ export const NoteListComponent = ({
                                       completeNote,
                                       setNotePriority,
                                       changeNoteName,
-                                      setSortColumn,
-                                      setSortType,
                                       sortOrder,
-                                      setSortOrder
+                                      changeSortOrder
                                   }: Props) => {
 
-    const [sortPriority, setSortPriority] = useState("")
-    const [sortName, setSortName] = useState("")
 
-
-    const handleSortClick = (column: NoteSortColumn, event: React.MouseEvent) => {
+    const handleSortClick = (column: NoteSortColumn) => {
         const icon = switchSort(sortOrder.icon);
         let noteSortOrder = {
             sortColumn: column,
             sortOrder: NoteSortOrder.ASC,
             icon: icon,
         }
-        setSortOrder(noteSortOrder)
-        //resetSorting();
-       // setSortColumn(NoteSortColumn.NAME);
-        //changeSortOrder(NoteSortColumn.NAME, NoteSortOrder.ASC);
-        //setSortName(switchSort(sortName));
-    }
-
-    const resetSorting = () => {
-        setSortPriority("");
-        setSortName("");
+        changeSortOrder(noteSortOrder)
     }
 
     const switchSort = (sortIcon: string): string => {
@@ -68,32 +52,16 @@ export const NoteListComponent = ({
         }
     }
 
-    const header = () => {
-       /* if (noteList.length > 0) {
-            return (
-                <Fragment>
-                    <Grid item style={{textAlign: "right"}} xs={4}>
-                        <Link onClick={e => handleSortClick(NoteSortColumn.PRIORITY, e)} underline="none"><Typography
-                            className={"sort-icon " + sortPriority}>Wichtigkeit</Typography></Link>
-                    </Grid>
-                    <Grid style={{textAlign: "left"}} item xs={8}>
-                        <Link onClick={e =>  handleSortClick(NoteSortColumn.PRIORITY, e)} underline="none"><Typography
-                            className={"sort-icon " + (sortOrder.sortColumn === NoteSortColumn.PRIORITY ? sortOrder.icon : "")}>Aufgabe</Typography></Link>
-                    </Grid>
-                </Fragment>)
-        }*/
-    }
-
     return (
         <Grid container spacing={2} rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
             {noteList.length > 0 &&
             <Fragment>
                 <Grid item style={{textAlign: "right"}} xs={4}>
-                    <Link onClick={e => handleSortClick(NoteSortColumn.PRIORITY, e)} underline="none"><Typography
+                    <Link onClick={() => handleSortClick(NoteSortColumn.PRIORITY)} underline="none"><Typography
                         className={"sort-icon " + (sortOrder.sortColumn === NoteSortColumn.PRIORITY ? sortOrder.icon : "")}>Wichtigkeit</Typography></Link>
                 </Grid>
                 <Grid style={{textAlign: "left"}} item xs={8}>
-                    <Link onClick={e => handleSortClick(NoteSortColumn.NAME, e)} underline="none"><Typography
+                    <Link onClick={() => handleSortClick(NoteSortColumn.NAME,)} underline="none"><Typography
                         className={"sort-icon " + (sortOrder.sortColumn === NoteSortColumn.NAME ? sortOrder.icon : "")}>Aufgabe</Typography></Link>
                 </Grid>
             </Fragment>}
