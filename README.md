@@ -1,7 +1,7 @@
 # MAS-SPA-Notizen
 
 # URL to Test
-http://d1y4k8ttknyg2u.cloudfront.net/
+https://d1y4k8ttknyg2u.cloudfront.net/
 
 # Getting Started with Create React App
 
