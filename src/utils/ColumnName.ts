@@ -1,4 +1,4 @@
-export enum NoteSortColumn {
+export enum ColumnName {
     PRIORITY = "priority",
     NAME = "name"
 }

@@ -1,8 +1,7 @@
-import {NoteSortColumn} from "./NoteSortColumn";
-import {NoteSortOrder} from "./NoteSortOrder";
+import {ColumnName} from "../utils/ColumnName";
+import {SortOrder} from "./SortOrder";
 
 export interface NoteOrder  {
-    sortColumn: NoteSortColumn
-    sortOrder: NoteSortOrder,
-    icon: string
+    sortColumn: ColumnName
+    sortOrder: SortOrder,
 }

@@ -1,12 +1,12 @@
-import { Grid, Typography } from "@mui/material";
-import React, { useState } from "react";
-import { Note } from "../models/Note";
-import { NoteOrder } from "../models/NoteOrder";
-import { NoteSortColumn } from "../models/NoteSortColumn";
-import { NoteSortOrder } from "../models/NoteSortOrder";
-import { AddNoteComponent } from "./AddNoteComponent";
-import { NoteListComponent } from "./NoteListComponent";
-import { ShowAllNotesComponent } from "./ShowAllNotesComponent";
+import React, {useState} from "react";
+import {Note} from "../models/Note";
+import {AddNoteComponent} from "./AddNoteComponent";
+import {NoteListComponent} from "./NoteListComponent";
+import {ShowAllNotesComponent} from "./ShowAllNotesComponent";
+import {Grid, Typography} from "@mui/material";
+import {SortOrder} from "../models/SortOrder";
+import {ColumnName} from "../utils/ColumnName";
+import {NoteOrder} from "../models/NoteOrder";
 
 export const NotesComponent = () => {
 
@@ -14,14 +14,13 @@ export const NotesComponent = () => {
     const [searchParam, setSearchParam] = useState("")
     const [showAll, setShowAll] = useState(false)
     const [idCounter, setIdCounter] = useState(0)
-    const [sortOrder, setSortOrder] = React.useState({
-        sortColumn: NoteSortColumn.NAME,
-        sortOrder: NoteSortOrder.DESC,
-        icon: "sort-icon-up"
+    const [noteOrder, setNoteOrder] = React.useState({
+        sortColumn: ColumnName.NAME,
+        sortOrder: SortOrder.ASC,
     });
 
     const addNewNote = (name: string): void => {
-        let newNote = {
+        const newNote = {
             name: name,
             priority: 0,
             id: idCounter,
@@ -29,11 +28,7 @@ export const NotesComponent = () => {
         }
         let tempNoteListArray = [...noteList];
         tempNoteListArray.push(newNote)
-        console.log(sortOrder.icon)
-        console.log(sortOrder.sortColumn)
-        tempNoteListArray = sortNoteList(tempNoteListArray, sortOrder);
-        //tempNoteListArray.sort((firstNote, secondNote) => compareNotes(firstNote, secondNote))
-        console.log(tempNoteListArray)
+        tempNoteListArray = sortNoteList(tempNoteListArray, noteOrder);
 
         setNoteList(tempNoteListArray);
         setIdCounter(idCounter + 1)
@@ -49,7 +44,6 @@ export const NotesComponent = () => {
         });
 
         setNoteList(tempNoteListArray);
-        console.log(noteList)
     }
 
     const setNotePriority = (noteId: number, priority: number): void => {
@@ -92,42 +86,25 @@ export const NotesComponent = () => {
     const showAllNotes = (showAll: boolean): void => {
         setShowAll(showAll);
     }
-    /* useEffect(() => {
-         console.log("sort " + sortOrder.sortColumn)
-         console.log("sort " + sortOrder.icon)
-         let tempNoteListArray = [...noteList];
-         tempNoteListArray = sortNoteList(tempNoteListArray);
-
-         console.log("before");
-         console.log(tempNoteListArray)
-         console.log("after");
-         setNoteList(tempNoteListArray);
-         console.log(noteList)
-     }, [sortOrder])*/
 
     const sortNoteList = (noteList: Note[], noteOrder: NoteOrder): Note[] => {
         const notes = noteList.sort((firstNote, secondNote) => {
             if (firstNote[noteOrder.sortColumn] > secondNote[noteOrder.sortColumn]) {
-                return noteOrder.icon === "sort-icon-up" ? 1 : -1
+                return noteOrder.sortOrder === SortOrder.DESC ? 1 : -1
             } else if (firstNote[noteOrder.sortColumn] < secondNote[noteOrder.sortColumn]) {
-                return noteOrder.icon === "sort-icon-up" ? -1 : 1
+                return noteOrder.sortOrder === SortOrder.DESC ? -1 : 1
             }
             return 0;
         });
-        setNoteList(notes);
         return notes
     }
 
     const changeSortOrder = (noteOrder: NoteOrder): void => {
         let tempNoteListArray = [...noteList];
         tempNoteListArray = sortNoteList(tempNoteListArray, noteOrder);
-        console.log("before");
-        console.log(tempNoteListArray)
-        console.log("after");
-        // setNoteList(tempNoteListArray);
-        setSortOrder(noteOrder)
-        console.log(noteList)
-
+        setNoteList(tempNoteListArray);
+        console.log(noteOrder.sortOrder)
+        setNoteOrder(noteOrder)
     }
 
     return (
@@ -145,11 +122,11 @@ export const NotesComponent = () => {
                 <NoteListComponent noteList={noteList}
                                    showAllNotes={showAll}
                                    searchParam={searchParam}
+                                   noteOrder={noteOrder}
                                    setNotePriority={setNotePriority}
                                    completeNote={completeNote}
                                    deleteNote={deleteNote}
                                    changeNoteName={changeNoteName}
-                                   sortOrder={sortOrder}
                                    changeSortOrder={changeSortOrder}
                 />
 

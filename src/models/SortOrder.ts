@@ -1,4 +1,4 @@
-export enum NoteSortOrder {
+export enum SortOrder {
     ASC = "asc",
     DESC = "desc"
 }
