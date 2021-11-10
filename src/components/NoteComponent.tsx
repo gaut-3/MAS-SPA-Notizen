@@ -27,7 +27,7 @@ export const NoteComponent = ({note, deleteNote, completeNote, changeNotePriorit
         changeNotePriority(noteId, priority)
     }
 
-    const handleNoteNameChange = (noteId: number, event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleNoteNameChange = (noteId: number, event: ChangeEvent<HTMLInputElement>) => {
         changeNoteName(noteId, event.target.value)
     }
 

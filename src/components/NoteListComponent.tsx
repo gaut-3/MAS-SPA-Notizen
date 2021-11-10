@@ -2,8 +2,8 @@ import { Grid, Link, Typography } from "@mui/material";
 import { Fragment } from "react";
 import { Note } from "../models/Note";
 import { NoteOrder } from "../models/NoteOrder";
-import { NoteSortColumn } from "../models/NoteSortColumn";
-import { NoteSortOrder } from "../models/NoteSortOrder";
+import { ColumnName } from "../models/ColumnName";
+import { SortOrder } from "../models/SortOrder";
 import { NoteComponent } from "./NoteComponent";
 
 interface Props {
@@ -32,14 +32,24 @@ export const NoteListComponent = ({
                                   }: Props) => {
 
 
-    const handleSortClick = (column: NoteSortColumn) => {
-        const icon = switchSort(sortOrder.icon);
-        let noteSortOrder = {
+    const handleSortClick = (column: ColumnName) => {
+        const icon = switchSort(sortOrder.icon)
+        const noteSortOrder = {
             sortColumn: column,
-            sortOrder: NoteSortOrder.ASC,
+            sortOrder: switchSortOrder(sortOrder.sortOrder),
             icon: icon,
         }
         changeSortOrder(noteSortOrder)
+    }
+
+    const switchSortOrder = (sortOrder: string): SortOrder => {
+        if (sortOrder === SortOrder.DESC) {
+            return SortOrder.ASC;
+        } else if (sortOrder === SortOrder.ASC) {
+            return SortOrder.DESC;
+        } else {
+            return SortOrder.ASC;
+        }
     }
 
     const switchSort = (sortIcon: string): string => {
@@ -52,17 +62,28 @@ export const NoteListComponent = ({
         }
     }
 
+    const getIconClass = (sortOrder: string): string => {
+        if (sortOrder === SortOrder.ASC) {
+            return "sort-icon-down";
+        }
+        if (sortOrder === SortOrder.DESC) {
+            return "sort-icon-up";
+        }
+
+        return "";
+    }
+
     return (
         <Grid container spacing={2} rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
             {noteList.length > 0 &&
             <Fragment>
                 <Grid item style={{textAlign: "right"}} xs={4}>
-                    <Link onClick={() => handleSortClick(NoteSortColumn.PRIORITY)} underline="none"><Typography
-                        className={"sort-icon " + (sortOrder.sortColumn === NoteSortColumn.PRIORITY ? sortOrder.icon : "")}>Wichtigkeit</Typography></Link>
+                    <Link onClick={() => handleSortClick(ColumnName.PRIORITY)} underline="none"><Typography
+                        className={"sort-icon " + (sortOrder.sortColumn === ColumnName.PRIORITY ? getIconClass(sortOrder.sortOrder) : "")}>Wichtigkeit</Typography></Link>
                 </Grid>
                 <Grid style={{textAlign: "left"}} item xs={8}>
-                    <Link onClick={() => handleSortClick(NoteSortColumn.NAME,)} underline="none"><Typography
-                        className={"sort-icon " + (sortOrder.sortColumn === NoteSortColumn.NAME ? sortOrder.icon : "")}>Aufgabe</Typography></Link>
+                    <Link onClick={() => handleSortClick(ColumnName.NAME,)} underline="none"><Typography
+                        className={"sort-icon " + (sortOrder.sortColumn === ColumnName.NAME ? getIconClass(sortOrder.sortOrder) : "")}>Aufgabe</Typography></Link>
                 </Grid>
             </Fragment>}
             {noteList.filter(note => {
