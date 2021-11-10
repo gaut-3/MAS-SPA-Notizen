@@ -1,10 +1,10 @@
-import { Grid, Link, Typography } from "@mui/material";
-import { Fragment } from "react";
-import { Note } from "../models/Note";
-import { NoteOrder } from "../models/NoteOrder";
-import { ColumnName } from "../utils/ColumnName";
-import { SortOrder } from "../models/SortOrder";
-import { NoteComponent } from "./NoteComponent";
+import {Grid, Link, Typography} from "@mui/material";
+import {Fragment} from "react";
+import {Note} from "../models/Note";
+import {NoteOrder} from "../models/NoteOrder";
+import {ColumnName} from "../utils/ColumnName";
+import {SortOrder} from "../models/SortOrder";
+import {NoteComponent} from "./NoteComponent";
 
 interface Props {
     noteList: Note[];
@@ -62,17 +62,19 @@ export const NoteListComponent = ({
     }
 
     return (
-        <Grid container className="note-list-container" rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
+        <Grid container className="note-list-container" rowSpacing={2} alignItems="center" direction="row"
+              justifyContent="center">
             {noteList.length > 0 &&
             <Fragment>
-                <Grid item style={{textAlign: "right"}} xs={3}>
-                    <Link onClick={() => handleSortClick(ColumnName.PRIORITY)} underline="none"><Typography
+                <Grid item style={{textAlign: "right", paddingRight: "10px"}} xs={3}>
+                    <Link color="inherit" onClick={() => handleSortClick(ColumnName.PRIORITY)} underline="none"><Typography
                         className={"sort-icon " + (noteOrder.sortColumn === ColumnName.PRIORITY ? getIconClass(noteOrder.sortOrder) : "")}>Wichtigkeit</Typography></Link>
                 </Grid>
-                <Grid item style={{textAlign: "left"}}  xs={9}>
-                    <Link onClick={() => handleSortClick(ColumnName.NAME,)} underline="none"><Typography
+                <Grid item style={{textAlign: "left", paddingLeft: "10px"}} xs={9}>
+                    <Link color="inherit" onClick={() => handleSortClick(ColumnName.NAME,)} underline="none"><Typography
                         className={"sort-icon " + (noteOrder.sortColumn === ColumnName.NAME ? getIconClass(noteOrder.sortOrder) : "")}>Aufgabe</Typography></Link>
                 </Grid>
+                <Grid item className="note-list-item-separator" xs={12} />
             </Fragment>}
             {noteList.filter(note => {
                     if (searchParam !== "") {
@@ -83,11 +85,15 @@ export const NoteListComponent = ({
                 }
             ).filter(note => (showAllNotes || !note.isComplete)).map((note) => {
                 return (
-                    <NoteComponent note={note}
-                                   completeNote={completeNote}
-                                   changeNotePriority={setNotePriority}
-                                   deleteNote={deleteNote}
-                                   changeNoteName={changeNoteName}/>
+                    <Fragment>
+                        <NoteComponent note={note}
+                                       completeNote={completeNote}
+                                       changeNotePriority={setNotePriority}
+                                       deleteNote={deleteNote}
+                                       changeNoteName={changeNoteName}/>
+                        <Grid className="note-list-item-separator" item
+                              xs={12} />
+                    </Fragment>
                 );
             })}
         </Grid>

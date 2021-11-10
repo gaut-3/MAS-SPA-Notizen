@@ -1,98 +1,82 @@
-.body{
-  background-color: cornflowerblue;
-}
-.container {
-  background: white;
-  padding: 10px 5px;
-  border-radius: 5px;
+.body {
+    background-color: #1976d2;
 }
 
-.container > *{
-  padding: 10px 5px
+.container {
+    background: white;
+    padding: 10px 5px;
+    border-radius: 5px;
+}
+
+.container > * {
+    padding: 10px 5px
+}
+
+.note-list-container {
+    padding: 5px 0;
+}
+
+.note-list-item-separator {
+    background-color: #1976d2;
+    padding: 1px !important;
+    margin-top: 5px !important;
+}
+
+.note-add-textfield fieldset {
+    border-color: #1976d2;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.note-add-textfield input:focus {
+    border-color: #1976d2;
+}
+
+.note-add-button {
+    height: 56px;
+    border-color: #1976d2;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-left-width: 0 !important;
+}
+
+.sort-icon:after {
+    font-size: large;
+    padding-left: 3px;
+}
+
+.sort-icon-up:after {
+    content: "\1F815";
+}
+
+.sort-icon-down:after {
+    content: " \1F817";
 }
 
 .note-complete {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
 .note-priorities {
-  display: inline;
+    display: inline;
 }
 
 .note-priorities span {
-  opacity: 0.2;
+    opacity: 0.2;
 }
 
 .note-priorities span:hover {
-  cursor: default;
+    cursor: default;
 }
 
 .note-priority-1 :nth-child(1),
 .note-priority-2 :nth-child(-n+2),
-.note-priority-3 :nth-child(-n+3){
-  opacity: 1;
+.note-priority-3 :nth-child(-n+3) {
+    opacity: 1;
 }
 
 .note-priorities svg {
-  opacity: 0.2;
-  color: black;
-  padding: 0 2px;
-}
-
-.note-list-container {
-  padding: 5px 0;
-}
-
-.sort-icon:after {
-  font-size: large;
-  padding-left: 3px;
-}
-
-.sort-icon-up:after {
-  content:"\1F815";
-}
-
-.sort-icon-down:after {
-  content:" \1F817";
-}
-
-/*CreateReactApp Code*/
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  /*background-color: #282c34;*/
-  background-color: #234232;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+    opacity: 0.2;
+    color: black;
+    padding: 0 2px;
 }
