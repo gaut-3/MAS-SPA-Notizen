@@ -88,7 +88,7 @@ export const NotesComponent = () => {
     }
 
     const sortNoteList = (noteList: Note[], noteOrder: NoteOrder): Note[] => {
-        const notes = noteList.sort((firstNote, secondNote) => {
+        return noteList.sort((firstNote, secondNote) => {
             if (firstNote[noteOrder.sortColumn] > secondNote[noteOrder.sortColumn]) {
                 return noteOrder.sortOrder === SortOrder.DESC ? 1 : -1
             } else if (firstNote[noteOrder.sortColumn] < secondNote[noteOrder.sortColumn]) {
@@ -96,7 +96,6 @@ export const NotesComponent = () => {
             }
             return 0;
         });
-        return notes
     }
 
     const changeSortOrder = (noteOrder: NoteOrder): void => {
@@ -108,7 +107,7 @@ export const NotesComponent = () => {
     }
 
     return (
-        <Grid container spacing={2} justifyContent="center" style={{maxWidth: '600px', margin: '0 auto'}}>
+        <Grid container justifyContent="center" className="container" style={{maxWidth: '650px', margin: '10px auto'}}>
             <Grid item xs={12} style={{textAlign: "center"}}>
                 <Typography variant="h1">Notiz App</Typography>
             </Grid>

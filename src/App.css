@@ -2,10 +2,13 @@
   background-color: cornflowerblue;
 }
 .container {
-  border: 1px solid black;
-  border-radius: 4px;
-  background: #7030A0;
-  display: flex;
+  background: white;
+  padding: 10px 5px;
+  border-radius: 5px;
+}
+
+.container > *{
+  padding: 10px 5px
 }
 
 .note-complete {
@@ -33,11 +36,11 @@
 .note-priorities svg {
   opacity: 0.2;
   color: black;
+  padding: 0 2px;
 }
 
-.note-list {
-  margin-right: auto;
-  margin-left: auto;
+.note-list-container {
+  padding: 5px 0;
 }
 
 .sort-icon:after {

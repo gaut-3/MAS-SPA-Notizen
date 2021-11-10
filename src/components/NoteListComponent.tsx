@@ -62,14 +62,14 @@ export const NoteListComponent = ({
     }
 
     return (
-        <Grid container spacing={2} rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
+        <Grid container className="note-list-container" rowSpacing={2} alignItems="center" direction="row" justifyContent="center">
             {noteList.length > 0 &&
             <Fragment>
-                <Grid item style={{textAlign: "right"}} xs={4}>
+                <Grid item style={{textAlign: "right"}} xs={3}>
                     <Link onClick={() => handleSortClick(ColumnName.PRIORITY)} underline="none"><Typography
                         className={"sort-icon " + (noteOrder.sortColumn === ColumnName.PRIORITY ? getIconClass(noteOrder.sortOrder) : "")}>Wichtigkeit</Typography></Link>
                 </Grid>
-                <Grid style={{textAlign: "left"}} item xs={8}>
+                <Grid item style={{textAlign: "left"}}  xs={9}>
                     <Link onClick={() => handleSortClick(ColumnName.NAME,)} underline="none"><Typography
                         className={"sort-icon " + (noteOrder.sortColumn === ColumnName.NAME ? getIconClass(noteOrder.sortOrder) : "")}>Aufgabe</Typography></Link>
                 </Grid>

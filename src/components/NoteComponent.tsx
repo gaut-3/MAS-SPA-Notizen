@@ -33,16 +33,16 @@ export const NoteComponent = ({note, deleteNote, completeNote, changeNotePriorit
 
     return (
         <Fragment>
-            <Grid style={{textAlign: "left"}} item xs={1}>
+            <Grid item style={{textAlign: "left"}} xs={1}>
                 <Checkbox checked={note.isComplete}
                           onChange={(event) => handleIsCompleteChange(note.id, event)}/>
             </Grid>
-            <Grid item className={"note-priorities note-priority-" + note.priority} xs={3}>
+            <Grid item className={"note-priorities note-priority-" + note.priority} xs={2}>
                 <BoltIcon onClick={() => handlePriorityClick(note.id, 1)}/>
                 <BoltIcon onClick={() => handlePriorityClick(note.id, 2)}/>
                 <BoltIcon onClick={() => handlePriorityClick(note.id, 3)}/>
             </Grid>
-            <Grid style={{textAlign: "left"}} item xs={6}>
+            <Grid item style={{textAlign: "left"}} xs={7}>
                 <TextField fullWidth
                            style={{overflowWrap: "break-word"}}
                            onChange={e => handleNoteNameChange(note.id, e)} value={note.name}
@@ -50,8 +50,8 @@ export const NoteComponent = ({note, deleteNote, completeNote, changeNotePriorit
                            InputProps={{disableUnderline: true, classes: { input: (note.isComplete) ? "note-checked" : ""}}}
                            variant="standard"/>
             </Grid>
-            <Grid style={{textAlign: "right"}} item xs={2}>
-                <Button size="small" variant="outlined"  endIcon={<DeleteIcon />} onClick={() => handleDeleteClick(note.id)}>Löschen</Button>
+            <Grid item style={{textAlign: "right"}} xs={2}>
+                <Button size="small" variant="outlined"  onClick={() => handleDeleteClick(note.id)}><DeleteIcon fontSize="small" /></Button>
             </Grid>
         </Fragment>
 
