@@ -1,5 +1,6 @@
-import React, {ChangeEvent, useState} from "react";
-import {Button, Grid, TextField} from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
+import { ChangeEvent, useState } from "react";
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
 
 
 interface Props {
@@ -30,7 +31,7 @@ export const AddNoteComponent = ({addNewNote, filterNoteList}: Props) => {
                            placeholder="Aufgabe..."/>
             </Grid>
             <Grid item xs={4}>
-                <Button fullWidth style={{height: "100%"}} size="large" variant="outlined"
+                <Button fullWidth style={{height: "100%"}} size="large" variant="outlined" endIcon={<NoteAddIcon/>}
                         onClick={handleClickEvent}>Hinzufügen</Button>
             </Grid>
         </Grid>

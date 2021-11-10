@@ -1,6 +1,7 @@
 import BoltIcon from "@mui/icons-material/Bolt";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Button, Checkbox, Grid, TextField } from "@mui/material";
-import React, { ChangeEvent, Fragment } from "react";
+import { ChangeEvent, Fragment } from "react";
 import { Note } from "../models/Note";
 
 
@@ -50,7 +51,7 @@ export const NoteComponent = ({note, deleteNote, completeNote, changeNotePriorit
                            variant="standard"/>
             </Grid>
             <Grid style={{textAlign: "right"}} item xs={2}>
-                <Button size="small" variant="outlined" onClick={() => handleDeleteClick(note.id)}>Löschen</Button>
+                <Button size="small" variant="outlined"  endIcon={<DeleteIcon />} onClick={() => handleDeleteClick(note.id)}>Löschen</Button>
             </Grid>
         </Fragment>
 
