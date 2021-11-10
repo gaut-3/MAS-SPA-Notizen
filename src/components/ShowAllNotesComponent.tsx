@@ -1,6 +1,5 @@
-import React, {ChangeEvent} from "react";
-import {Checkbox, FormControlLabel, Grid} from "@mui/material";
-
+import { Checkbox, FormControlLabel, Grid } from "@mui/material";
+import { ChangeEvent } from "react";
 
 interface Props {
     showAllNotes: (arg: boolean) => void

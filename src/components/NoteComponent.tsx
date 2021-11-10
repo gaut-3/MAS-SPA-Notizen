@@ -1,7 +1,7 @@
-import React, {ChangeEvent, Fragment} from "react";
-import {Note} from "../models/Note";
-import {Button, Checkbox, Grid, TextField} from "@mui/material";
 import BoltIcon from "@mui/icons-material/Bolt";
+import { Button, Checkbox, Grid, TextField } from "@mui/material";
+import React, { ChangeEvent, Fragment } from "react";
+import { Note } from "../models/Note";
 
 
 interface Props {

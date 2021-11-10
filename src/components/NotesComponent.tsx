@@ -1,12 +1,12 @@
-import React, {useState} from "react";
-import {Note} from "../models/Note";
-import {AddNoteComponent} from "./AddNoteComponent";
-import {NoteListComponent} from "./NoteListComponent";
-import {ShowAllNotesComponent} from "./ShowAllNotesComponent";
-import {Grid, Typography} from "@mui/material";
-import {NoteSortOrder} from "../models/NoteSortOrder";
-import {NoteSortColumn} from "../models/NoteSortColumn";
-import {NoteOrder} from "../models/NoteOrder";
+import { Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Note } from "../models/Note";
+import { NoteOrder } from "../models/NoteOrder";
+import { NoteSortColumn } from "../models/NoteSortColumn";
+import { NoteSortOrder } from "../models/NoteSortOrder";
+import { AddNoteComponent } from "./AddNoteComponent";
+import { NoteListComponent } from "./NoteListComponent";
+import { ShowAllNotesComponent } from "./ShowAllNotesComponent";
 
 export const NotesComponent = () => {
 

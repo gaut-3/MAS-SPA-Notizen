@@ -1,10 +1,10 @@
-import React, {Fragment} from "react";
-import {Note} from "../models/Note";
-import {Grid, Link, Typography} from "@mui/material";
-import {NoteComponent} from "./NoteComponent";
-import {NoteSortColumn} from "../models/NoteSortColumn";
-import {NoteSortOrder} from "../models/NoteSortOrder";
-import {NoteOrder} from "../models/NoteOrder";
+import { Grid, Link, Typography } from "@mui/material";
+import { Fragment } from "react";
+import { Note } from "../models/Note";
+import { NoteOrder } from "../models/NoteOrder";
+import { NoteSortColumn } from "../models/NoteSortColumn";
+import { NoteSortOrder } from "../models/NoteSortOrder";
+import { NoteComponent } from "./NoteComponent";
 
 interface Props {
     noteList: Note[];
