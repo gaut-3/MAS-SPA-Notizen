@@ -2,7 +2,7 @@ import { Grid, Link, Typography } from "@mui/material";
 import { Fragment } from "react";
 import { Note } from "../models/Note";
 import { NoteOrder } from "../models/NoteOrder";
-import { ColumnName } from "../models/ColumnName";
+import { ColumnName } from "../utils/ColumnName";
 import { SortOrder } from "../models/SortOrder";
 import { NoteComponent } from "./NoteComponent";
 
@@ -15,7 +15,7 @@ interface Props {
     completeNote: (noteId: number, isComplete: boolean) => void
     changeNoteName: (noteId: number, noteName: string) => void
     changeSortOrder: (noteOrder: NoteOrder) => void
-    sortOrder: NoteOrder
+    noteOrder: NoteOrder
 }
 
 
@@ -27,17 +27,15 @@ export const NoteListComponent = ({
                                       completeNote,
                                       setNotePriority,
                                       changeNoteName,
-                                      sortOrder,
+                                      noteOrder,
                                       changeSortOrder
                                   }: Props) => {
 
 
     const handleSortClick = (column: ColumnName) => {
-        const icon = switchSort(sortOrder.icon)
         const noteSortOrder = {
             sortColumn: column,
-            sortOrder: switchSortOrder(sortOrder.sortOrder),
-            icon: icon,
+            sortOrder: switchSortOrder(noteOrder.sortOrder),
         }
         changeSortOrder(noteSortOrder)
     }
@@ -52,22 +50,12 @@ export const NoteListComponent = ({
         }
     }
 
-    const switchSort = (sortIcon: string): string => {
-        if (sortIcon === "sort-icon-up") {
-            return "sort-icon-down";
-        } else if (sortIcon === "sort-icon-down") {
-            return "sort-icon-up";
-        } else {
-            return "sort-icon-up";
-        }
-    }
-
     const getIconClass = (sortOrder: string): string => {
         if (sortOrder === SortOrder.ASC) {
-            return "sort-icon-down";
+            return "sort-icon-up";
         }
         if (sortOrder === SortOrder.DESC) {
-            return "sort-icon-up";
+            return "sort-icon-down";
         }
 
         return "";
@@ -79,11 +67,11 @@ export const NoteListComponent = ({
             <Fragment>
                 <Grid item style={{textAlign: "right"}} xs={4}>
                     <Link onClick={() => handleSortClick(ColumnName.PRIORITY)} underline="none"><Typography
-                        className={"sort-icon " + (sortOrder.sortColumn === ColumnName.PRIORITY ? getIconClass(sortOrder.sortOrder) : "")}>Wichtigkeit</Typography></Link>
+                        className={"sort-icon " + (noteOrder.sortColumn === ColumnName.PRIORITY ? getIconClass(noteOrder.sortOrder) : "")}>Wichtigkeit</Typography></Link>
                 </Grid>
                 <Grid style={{textAlign: "left"}} item xs={8}>
                     <Link onClick={() => handleSortClick(ColumnName.NAME,)} underline="none"><Typography
-                        className={"sort-icon " + (sortOrder.sortColumn === ColumnName.NAME ? getIconClass(sortOrder.sortOrder) : "")}>Aufgabe</Typography></Link>
+                        className={"sort-icon " + (noteOrder.sortColumn === ColumnName.NAME ? getIconClass(noteOrder.sortOrder) : "")}>Aufgabe</Typography></Link>
                 </Grid>
             </Fragment>}
             {noteList.filter(note => {

@@ -5,7 +5,7 @@ import {NoteListComponent} from "./NoteListComponent";
 import {ShowAllNotesComponent} from "./ShowAllNotesComponent";
 import {Grid, Typography} from "@mui/material";
 import {SortOrder} from "../models/SortOrder";
-import {ColumnName} from "../models/ColumnName";
+import {ColumnName} from "../utils/ColumnName";
 import {NoteOrder} from "../models/NoteOrder";
 
 export const NotesComponent = () => {
@@ -14,10 +14,9 @@ export const NotesComponent = () => {
     const [searchParam, setSearchParam] = useState("")
     const [showAll, setShowAll] = useState(false)
     const [idCounter, setIdCounter] = useState(0)
-    const [sortOrder, setSortOrder] = React.useState({
+    const [noteOrder, setNoteOrder] = React.useState({
         sortColumn: ColumnName.NAME,
         sortOrder: SortOrder.ASC,
-        icon: "sort-icon-up"
     });
 
     const addNewNote = (name: string): void => {
@@ -29,7 +28,7 @@ export const NotesComponent = () => {
         }
         let tempNoteListArray = [...noteList];
         tempNoteListArray.push(newNote)
-        tempNoteListArray = sortNoteList(tempNoteListArray, sortOrder);
+        tempNoteListArray = sortNoteList(tempNoteListArray, noteOrder);
 
         setNoteList(tempNoteListArray);
         setIdCounter(idCounter + 1)
@@ -91,9 +90,9 @@ export const NotesComponent = () => {
     const sortNoteList = (noteList: Note[], noteOrder: NoteOrder): Note[] => {
         const notes = noteList.sort((firstNote, secondNote) => {
             if (firstNote[noteOrder.sortColumn] > secondNote[noteOrder.sortColumn]) {
-                return noteOrder.sortOrder === SortOrder.ASC ? 1 : -1
+                return noteOrder.sortOrder === SortOrder.DESC ? 1 : -1
             } else if (firstNote[noteOrder.sortColumn] < secondNote[noteOrder.sortColumn]) {
-                return noteOrder.icon === SortOrder.DESC ? -1 : 1
+                return noteOrder.sortOrder === SortOrder.DESC ? -1 : 1
             }
             return 0;
         });
@@ -104,7 +103,8 @@ export const NotesComponent = () => {
         let tempNoteListArray = [...noteList];
         tempNoteListArray = sortNoteList(tempNoteListArray, noteOrder);
         setNoteList(tempNoteListArray);
-        setSortOrder(noteOrder)
+        console.log(noteOrder.sortOrder)
+        setNoteOrder(noteOrder)
     }
 
     return (
@@ -122,7 +122,7 @@ export const NotesComponent = () => {
                 <NoteListComponent noteList={noteList}
                                    showAllNotes={showAll}
                                    searchParam={searchParam}
-                                   sortOrder={sortOrder}
+                                   noteOrder={noteOrder}
                                    setNotePriority={setNotePriority}
                                    completeNote={completeNote}
                                    deleteNote={deleteNote}
