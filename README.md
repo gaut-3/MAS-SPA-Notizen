@@ -1,7 +1,7 @@
 # MAS-SPA-Notizen
 
 ## Team
-Roger Daniel
+Roger Daniel Billeter
 Gautham Arumugam
 ## Cloud Url
 https://d1y4k8ttknyg2u.cloudfront.net/
