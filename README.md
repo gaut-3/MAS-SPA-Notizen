@@ -3,6 +3,10 @@
 ## Team
 Roger Daniel Billeter
 Gautham Arumugam
+
+## GitHub Link
+https://github.com/gaut-3/MAS-SPA-Notizen
+
 ## Cloud Url
 https://d1y4k8ttknyg2u.cloudfront.net/
 
