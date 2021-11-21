@@ -1,7 +1,7 @@
 # MAS-SPA-Notizen
 
 ## Team
-Roger Daniel Billeter
+Roger Daniel Billeter, 
 Gautham Arumugam
 
 ## GitHub Link
